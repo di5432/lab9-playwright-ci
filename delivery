@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Калькулятор доставки</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 520px; margin: 50px auto; padding: 24px; }
+    label { display: block; margin: 16px 0 6px; }
+    input, select, button { width: 100%; padding: 10px; box-sizing: border-box; }
+    button { margin-top: 18px; cursor: pointer; }
+    #delivery-result { margin-top: 20px; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h1>Калькулятор доставки</h1>
+  <label for="delivery-type">Тип доставки</label>
+  <select id="delivery-type">
+    <option value="city">По городу</option>
+    <option value="region">По области</option>
+  </select>
+
+  <label for="order-amount">Сумма заказа (₸)</label>
+  <input id="order-amount" type="number" min="1" step="1" value="5000">
+
+  <button id="calculate" type="button">Рассчитать</button>
+  <p id="delivery-result" aria-live="polite">Введите сумму и нажмите «Рассчитать».</p>
+
+  <script>
+    const typeInput = document.getElementById('delivery-type');
+    const amountInput = document.getElementById('order-amount');
+    const result = document.getElementById('delivery-result');
+
+    document.getElementById('calculate').addEventListener('click', () => {
+      const amount = Number(amountInput.value);
+
+      if (!Number.isFinite(amount) || amount <= 0) {
+        result.textContent = 'Введите корректную сумму заказа.';
+        return;
+      }
+
+      const deliveryCost = amount >= 10000
+        ? 0
+        : (typeInput.value === 'city' ? 1000 : 2000);
+
+      result.textContent = deliveryCost === 0
+        ? 'Доставка бесплатная.'
+        : `Стоимость доставки: ${deliveryCost.toLocaleString('ru-RU')} ₸`;
+    });
+  </script>
+</body>
+</html>
