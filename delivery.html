@@ -39,7 +39,7 @@
         return;
       }
 
-      const deliveryCost = amount >= 10000
+      const deliveryCost = amount > 10000
         ? 0
         : (typeInput.value === 'city' ? 1000 : 2000);
 
